@@ -1,0 +1,40 @@
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+import { ExcelRow } from '../../model/api.model';
+
+@Component({
+  selector: 'app-selected-element',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './selected-element.component.html',
+  styleUrl: './selected-element.component.scss'
+})
+export class SelectedElementComponent {
+  @Input() selectedElement: ExcelRow | null = null;
+  @Input() elementKeys: string[] = [];
+  
+  @Output() clearSelection = new EventEmitter<void>();
+
+  // === Computed Properties ===
+  
+  hasSelection(): boolean {
+    return this.selectedElement !== null;
+  }
+
+  // === Event Handlers ===
+  
+  onClearSelection(): void {
+    this.clearSelection.emit();
+  }
+
+  // === Utility Methods ===
+  
+  getElementDisplayValue(element: ExcelRow, key: string): string {
+    const value = element[key];
+    if (value === null || value === undefined) return '-';
+    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+    if (typeof value === 'number') return value.toLocaleString();
+    return value.toString();
+  }
+}

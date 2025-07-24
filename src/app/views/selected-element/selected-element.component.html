@@ -1,0 +1,43 @@
+<!-- src/app/views/selected-element/selected-element.component.html -->
+<div class="selected-element-card" [class.has-selection]="hasSelection()">
+  @if (hasSelection()) {
+    <div class="selected-header">
+      <div class="selected-icon">
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="selected-title">
+        <h3>Vache Séléctionnée</h3>
+        <p>Currently active element for VMix</p>
+      </div>
+      <button class="clear-selection-btn"
+              (click)="onClearSelection()"
+              title="Clear selection">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="selected-content">
+      <!-- <div class="selected-id">
+        <span class="id-label">ID:</span>
+        <span class="id-value">{{ selectedElement!.id }}</span>
+      </div> -->
+
+      <div class="selected-properties">
+        @for (key of elementKeys; track key) {
+          <div class="property-item">
+            <span class="property-key">{{ key }}:</span>
+            <span class="property-value">{{ getElementDisplayValue(selectedElement!, key) }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="no-selection">
+      <div class="no-selection-icon">
+        <i class="fas fa-mouse-pointer"></i>
+      </div>
+      <h3>No Element Selected</h3>
+      <p>Click the play button next to any element to select it for VMix</p>
+    </div>
+  }
+</div>

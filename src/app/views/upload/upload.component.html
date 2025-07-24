@@ -1,0 +1,197 @@
+<!-- src/app/views/upload/upload.component.html -->
+<div class="upload-container vscode-fade-in">
+
+  <!-- Main Upload Card -->
+  <div class="upload-card">
+    <!-- Header Section -->
+    <div class="upload-header">
+      <div class="header-icon">
+        <i class="fas fa-cloud-upload-alt"></i>
+      </div>
+      <div class="header-content">
+        <h2 class="header-title">Import Excel File</h2>
+        <p class="header-subtitle">
+          Drag and drop your Excel file or click to browse
+        </p>
+      </div>
+    </div>
+
+  <!-- Main Drop Zone -->
+  <div class="drop-zone vscode-card"
+       [class.drag-over]="isDragOver()"
+       [class.has-file]="selectedFile()"
+       [class.uploading]="isUploading()"
+       (dragover)="onDragOver($event)"
+       (dragleave)="onDragLeave($event)"
+       (drop)="onDrop($event)"
+       (click)="openFileDialog()">
+
+    <!-- Default State - No File -->
+    @if (!selectedFile() && !isUploading()) {
+      <div class="drop-zone-content">
+        <div class="drop-icon">
+          <i class="fas fa-file-excel"></i>
+        </div>
+        <h3 class="drop-title">Drop Excel file here</h3>
+        <p class="drop-subtitle">
+          or <span class="drop-link">click to browse</span>
+        </p>
+        <div class="file-types">
+          <span class="file-type">.xlsx</span>
+          <span class="file-type">.xls</span>
+        </div>
+        <div class="size-limit">
+          <i class="fas fa-info-circle"></i>
+          Maximum file size: 10 MB
+        </div>
+      </div>
+    }
+
+    <!-- File Selected State -->
+    @if (selectedFile() && !isUploading()) {
+      <div class="file-selected vscode-scale-in">
+        <div class="file-icon">
+          <i class="fas" [class]="getFileIcon(selectedFile()!.name)"></i>
+        </div>
+        <div class="file-info">
+          <h4 class="file-name">{{ selectedFile()!.name }}</h4>
+          <div class="file-details">
+            <span class="file-size">
+              <i class="fas fa-weight-hanging"></i>
+              {{ formatFileSize(selectedFile()!.size) }}
+            </span>
+            <span class="file-type">
+              <i class="fas fa-tag"></i>
+              {{ selectedFile()!.type || 'Excel file' }}
+            </span>
+          </div>
+        </div>
+        <button class="remove-file-btn"
+                (click)="resetUpload(); $event.stopPropagation()"
+                title="Remove file">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    }
+
+    <!-- Upload Progress State -->
+    @if (isUploading()) {
+      <div class="upload-progress vscode-scale-in">
+        <div class="progress-icon">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        <h4 class="progress-title">Uploading...</h4>
+        <div class="progress-bar">
+          <div class="progress-fill"
+               [style.width.%]="uploadProgress()"></div>
+        </div>
+        <div class="progress-text">{{ uploadProgress() }}%</div>
+        <div class="progress-file">
+          <i class="fas fa-file-excel"></i>
+          {{ selectedFile()?.name }}
+        </div>
+      </div>
+    }
+
+    <!-- Hidden File Input -->
+    <input #fileInput
+           type="file"
+           accept=".xlsx,.xls"
+           (change)="onFileSelected($event)"
+           style="display: none;">
+  </div>
+
+    <!-- Action Buttons -->
+    @if (selectedFile() && !isUploading()) {
+      <div class="upload-actions">
+        <button class="vscode-button-secondary action-btn"
+                (click)="resetUpload()"
+                type="button">
+          <i class="fas fa-trash-alt"></i>
+          Clear File
+        </button>
+
+        <button class="vscode-button action-btn"
+                (click)="uploadFile()"
+                [disabled]="!selectedFile()"
+                type="button">
+          <i class="fas fa-upload"></i>
+          Upload to VMix
+        </button>
+      </div>
+    }
+
+    <!-- Error Message -->
+    @if (error()) {
+      <div class="error-message vscode-fade-in">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="error-content">
+          <h4 class="error-title">Upload Error</h4>
+          <p class="error-text">{{ error() }}</p>
+        </div>
+        <button class="error-close"
+                (click)="clearError()"
+                type="button"
+                title="Close error">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    }
+
+    <!-- Success Message -->
+    @if (uploadResult()) {
+      <div class="success-message vscode-fade-in">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="success-content">
+          <h4 class="success-title">Upload Successful!</h4>
+          <p class="success-text">
+            Your Excel file has been imported successfully
+          </p>
+
+          <div class="upload-stats">
+            <div class="stat-item">
+              <i class="fas fa-table"></i>
+              <span>{{ uploadResult()?.rowCount }} rows imported</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-columns"></i>
+              <span>{{ uploadResult()!.columns.length }} columns detected</span>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-file-signature"></i>
+              <span>{{ uploadResult()?.filename || 'File processed' }}</span>
+            </div>
+          </div>
+
+          <!-- Columns Preview -->
+          @if (uploadResult()?.columns && uploadResult()!.columns.length > 0) {
+            <div class="columns-preview">
+              <strong class="columns-label">
+                <i class="fas fa-list"></i>
+                Detected columns:
+              </strong>
+              <div class="columns-tags">
+                @for (column of uploadResult()!.columns; track column) {
+                  <span class="column-tag">{{ column }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <button class="success-close"
+                (click)="clearSuccess()"
+                type="button"
+                title="Close success message">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    }
+  </div>
+
+
+</div>

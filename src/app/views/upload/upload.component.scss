@@ -1,0 +1,815 @@
+// src/app/views/upload/upload.component.scss
+
+// === Main Container ===
+.upload-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  min-height: calc(100vh - 92px); // Compte pour header + footer
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// === Upload Card Widget ===
+.upload-card {
+  background-color: var(--vscode-bg-primary);
+  border: 1px solid var(--vscode-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--vscode-accent-blue), var(--vscode-accent-green));
+    border-radius: 12px 12px 0 0;
+  }
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--vscode-accent-blue);
+  }
+}
+
+// === Header Section ===
+.upload-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--vscode-border);
+
+  .header-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--vscode-accent-blue), #1177bb);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 0 4px 12px rgba(0, 122, 204, 0.3);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      pointer-events: none;
+    }
+  }
+
+  .header-content {
+    flex: 1;
+
+    .header-title {
+      margin: 0 0 6px 0;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--vscode-text-primary);
+      background: linear-gradient(135deg, var(--vscode-text-primary), var(--vscode-accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-subtitle {
+      margin: 0;
+      color: var(--vscode-text-secondary);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+}
+
+// === Drop Zone ===
+.drop-zone {
+  min-height: 320px;
+  border: 2px dashed var(--vscode-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--vscode-bg-secondary);
+  margin: 0 0 20px 0;
+
+  &:hover {
+    border-color: var(--vscode-accent-blue);
+    background-color: var(--vscode-hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 122, 204, 0.1);
+  }
+
+  &.drag-over {
+    border-color: var(--vscode-accent-blue);
+    background-color: rgba(0, 122, 204, 0.1);
+    transform: scale(1.01);
+    box-shadow: 0 0 0 4px rgba(0, 122, 204, 0.15), 0 4px 12px rgba(0, 122, 204, 0.2);
+  }
+
+  &.has-file {
+    border-style: solid;
+    border-color: var(--vscode-accent-green);
+    background-color: rgba(78, 201, 176, 0.05);
+
+    &:hover {
+      border-color: var(--vscode-accent-green);
+      background-color: rgba(78, 201, 176, 0.08);
+    }
+  }
+
+  &.uploading {
+    border-color: var(--vscode-accent-orange);
+    background-color: rgba(255, 152, 0, 0.05);
+    cursor: not-allowed;
+
+    &:hover {
+      transform: none;
+      border-color: var(--vscode-accent-orange);
+    }
+  }
+}
+
+// === Drop Zone States ===
+.drop-zone-content {
+  text-align: center;
+  padding: 40px 20px;
+
+  .drop-icon {
+    font-size: 64px;
+    color: var(--vscode-accent-green);
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+
+  .drop-title {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--vscode-text-primary);
+  }
+
+  .drop-subtitle {
+    margin: 0 0 20px 0;
+    color: var(--vscode-text-secondary);
+    font-size: 14px;
+
+    .drop-link {
+      color: var(--vscode-accent-blue);
+      font-weight: 500;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+      transition: text-decoration-color 0.2s ease;
+
+      &:hover {
+        text-decoration-color: var(--vscode-accent-blue);
+      }
+    }
+  }
+
+  .file-types {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 16px;
+
+    .file-type {
+      background-color: var(--vscode-bg-tertiary);
+      color: var(--vscode-text-primary);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: 'Courier New', monospace;
+      border: 1px solid var(--vscode-border);
+      font-weight: 500;
+    }
+  }
+
+  .size-limit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--vscode-text-disabled);
+    font-size: 12px;
+
+    i {
+      color: var(--vscode-accent-blue);
+    }
+  }
+}
+
+// === File Selected State ===
+.file-selected {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 8px;
+  background-color: rgba(78, 201, 176, 0.05);
+  border: 1px solid rgba(78, 201, 176, 0.2);
+
+  .file-icon {
+    width: 64px;
+    height: 64px;
+    background-color: var(--vscode-accent-green);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(78, 201, 176, 0.3);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+      pointer-events: none;
+    }
+  }
+
+  .file-info {
+    flex: 1;
+    min-width: 0;
+
+    .file-name {
+      margin: 0 0 8px 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--vscode-text-primary);
+      word-break: break-all;
+      line-height: 1.3;
+    }
+
+    .file-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--vscode-text-secondary);
+
+      span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        i {
+          width: 12px;
+          color: var(--vscode-accent-blue);
+        }
+      }
+    }
+  }
+
+  .remove-file-btn {
+    width: 32px;
+    height: 32px;
+    background-color: var(--vscode-accent-red);
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: #d32f2f;
+      transform: scale(1.1);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// === Upload Progress State ===
+.upload-progress {
+  text-align: center;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  background-color: rgba(255, 152, 0, 0.05);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+
+  .progress-icon {
+    font-size: 48px;
+    color: var(--vscode-accent-orange);
+    margin-bottom: 16px;
+    filter: drop-shadow(0 2px 4px rgba(255, 152, 0, 0.3));
+  }
+
+  .progress-title {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: var(--vscode-text-primary);
+    font-weight: 500;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: var(--vscode-bg-tertiary);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border: 1px solid var(--vscode-border);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--vscode-accent-blue), var(--vscode-accent-green));
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 6px;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 122, 204, 0.3);
+
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: shimmer 2s infinite;
+      }
+    }
+  }
+
+  .progress-text {
+    font-size: 14px;
+    color: var(--vscode-text-secondary);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+
+  .progress-file {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--vscode-text-disabled);
+
+    i {
+      color: var(--vscode-accent-green);
+    }
+  }
+}
+
+// === Action Buttons ===
+.upload-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 140px;
+    justify-content: center;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    i {
+      font-size: 13px;
+    }
+  }
+}
+
+// === Messages ===
+.error-message, .success-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.error-message {
+  background-color: rgba(244, 71, 71, 0.1);
+  border-left-color: var(--vscode-accent-red);
+
+  .error-icon {
+    color: var(--vscode-accent-red);
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .error-content {
+    flex: 1;
+
+    .error-title {
+      margin: 0 0 4px 0;
+      color: var(--vscode-accent-red);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .error-text {
+      margin: 0;
+      color: var(--vscode-text-primary);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+  }
+
+  .error-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--vscode-text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--vscode-hover-bg);
+      color: var(--vscode-text-primary);
+    }
+  }
+}
+
+.success-message {
+  background-color: rgba(78, 201, 176, 0.1);
+  border-left-color: var(--vscode-accent-green);
+
+  .success-icon {
+    color: var(--vscode-accent-green);
+    font-size: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .success-content {
+    flex: 1;
+
+    .success-title {
+      margin: 0 0 4px 0;
+      color: var(--vscode-accent-green);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .success-text {
+      margin: 0 0 12px 0;
+      color: var(--vscode-text-primary);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .upload-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+
+      .stat-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--vscode-text-secondary);
+
+        i {
+          color: var(--vscode-accent-blue);
+          width: 12px;
+        }
+      }
+    }
+
+    .columns-preview {
+      .columns-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--vscode-text-primary);
+        font-size: 12px;
+        margin-bottom: 8px;
+
+        i {
+          color: var(--vscode-accent-blue);
+        }
+      }
+
+      .columns-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+
+        .column-tag {
+          background-color: var(--vscode-bg-tertiary);
+          color: var(--vscode-text-primary);
+          padding: 2px 6px;
+          border-radius: 3px;
+          font-size: 11px;
+          border: 1px solid var(--vscode-border);
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .success-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--vscode-text-secondary);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: var(--vscode-hover-bg);
+      color: var(--vscode-text-primary);
+    }
+  }
+}
+
+// === Instructions Panel ===
+.instructions-panel {
+  background-color: var(--vscode-bg-primary);
+  border: 1px solid var(--vscode-border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-color: var(--vscode-accent-blue);
+  }
+
+  .instructions-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--vscode-border);
+
+    i {
+      color: var(--vscode-accent-blue);
+      font-size: 16px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--vscode-text-primary);
+    }
+  }
+
+  .instructions-content {
+    .instructions-list {
+      margin: 0 0 20px 0;
+      padding-left: 20px;
+      color: var(--vscode-text-secondary);
+      font-size: 13px;
+      line-height: 1.6;
+
+      li {
+        margin-bottom: 8px;
+
+        strong {
+          color: var(--vscode-text-primary);
+        }
+      }
+    }
+
+    .requirements {
+      background-color: var(--vscode-bg-tertiary);
+      border: 1px solid var(--vscode-border);
+      border-radius: 8px;
+      padding: 18px;
+
+      .requirements-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0 0 12px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--vscode-text-primary);
+
+        i {
+          color: var(--vscode-accent-green);
+        }
+      }
+
+      .requirements-list {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--vscode-text-secondary);
+        font-size: 12px;
+        line-height: 1.5;
+
+        li {
+          margin-bottom: 6px;
+
+          strong {
+            color: var(--vscode-text-primary);
+          }
+        }
+      }
+    }
+  }
+}
+
+// === Animations ===
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// === Responsive Design ===
+@media (max-width: 768px) {
+  .upload-container {
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .upload-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .upload-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+
+    .header-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 22px;
+    }
+
+    .header-title {
+      font-size: 22px;
+    }
+  }
+
+  .drop-zone {
+    min-height: 280px;
+  }
+
+  .drop-zone-content {
+    padding: 30px 16px;
+
+    .drop-title {
+      font-size: 18px;
+    }
+
+    .drop-icon {
+      font-size: 48px;
+    }
+  }
+
+  .file-selected {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+
+    .file-details {
+      align-items: center;
+    }
+  }
+
+  .upload-actions {
+    flex-direction: column;
+
+    .action-btn {
+      width: 100%;
+    }
+  }
+
+  .upload-stats {
+    .stat-item {
+      justify-content: center;
+    }
+  }
+
+  .columns-preview .columns-tags {
+    justify-content: center;
+  }
+
+  .instructions-panel {
+    padding: 20px;
+    border-radius: 10px;
+
+    .instructions-list,
+    .requirements-list {
+      padding-left: 16px;
+    }
+    
+    .requirements {
+      padding: 16px;
+      border-radius: 6px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .upload-container {
+    padding: 12px;
+  }
+  
+  .upload-card {
+    padding: 16px;
+    border-radius: 8px;
+  }
+
+  .drop-zone {
+    min-height: 240px;
+  }
+
+  .file-selected .file-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .upload-progress {
+    padding: 30px;
+
+    .progress-icon {
+      font-size: 36px;
+    }
+
+    .progress-title {
+      font-size: 16px;
+    }
+  }
+  
+  .instructions-panel {
+    padding: 16px;
+    border-radius: 8px;
+  }
+}

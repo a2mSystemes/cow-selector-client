@@ -1,0 +1,204 @@
+.app-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--vscode-bg-primary);
+    }
+
+    .app-header {
+      background-color: var(--vscode-bg-sidebar);
+      border-bottom: 1px solid var(--vscode-border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--vscode-shadow-light);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    // === Navigation ===
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: center;
+      
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--vscode-text-secondary);
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        background-color: transparent;
+        border: 1px solid transparent;
+        
+        i {
+          font-size: 14px;
+          width: 16px;
+          text-align: center;
+        }
+        
+        &:hover {
+          color: var(--vscode-text-primary);
+          background-color: var(--vscode-hover-bg);
+          border-color: var(--vscode-border);
+        }
+        
+        &.active {
+          color: var(--vscode-accent-blue);
+          background-color: rgba(0, 122, 204, 0.1);
+          border-color: var(--vscode-accent-blue);
+          
+          i {
+            color: var(--vscode-accent-blue);
+          }
+        }
+      }
+    }
+
+    .app-logo {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--vscode-accent-blue), var(--vscode-accent-green));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+      box-shadow: var(--vscode-shadow-light);
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--vscode-text-primary);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--vscode-text-secondary);
+      padding: 4px 8px;
+      border-radius: 3px;
+      background-color: var(--vscode-bg-tertiary);
+      border: 1px solid var(--vscode-border);
+
+      &.online {
+        color: var(--vscode-accent-green);
+        border-color: var(--vscode-accent-green);
+        background-color: rgba(78, 201, 176, 0.1);
+      }
+
+      i {
+        font-size: 8px;
+        animation: pulse 2s infinite;
+      }
+    }
+
+    .app-main {
+      flex: 1;
+      background-color: var(--vscode-bg-primary);
+    }
+
+    .app-footer {
+      background-color: var(--vscode-bg-sidebar);
+      border-top: 1px solid var(--vscode-border);
+      padding: 8px 24px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--vscode-text-disabled);
+      width: 100%;
+    }
+
+    .footer-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      i {
+        font-size: 10px;
+        color: var(--vscode-accent-blue);
+      }
+    }
+
+    .footer-separator {
+      color: var(--vscode-border);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @media (max-width: 768px) {
+      .app-header {
+        padding: 12px 16px;
+        flex-direction: column;
+        height: auto;
+        gap: 12px;
+      }
+
+      .header-left, .header-right {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .header-nav {
+        width: 100%;
+        justify-content: center;
+        gap: 12px;
+        
+        .nav-link {
+          flex: 1;
+          justify-content: center;
+          padding: 10px 12px;
+        }
+      }
+
+      .app-title {
+        font-size: 14px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 4px;
+        text-align: center;
+      }
+
+      .footer-separator {
+        display: none;
+      }
+    }

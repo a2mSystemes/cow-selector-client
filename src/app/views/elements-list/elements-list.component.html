@@ -1,0 +1,168 @@
+<!-- src/app/views/elements-list/elements-list.component.html -->
+<div class="elements-container vscode-fade-in">
+
+  <!-- Selected Element Component -->
+  <app-selected-element
+    [selectedElement]="selectedElement()"
+    [elementKeys]="getElementKeys()"
+    (clearSelection)="clearSelection()">
+  </app-selected-element>
+
+  <!-- Elements List Container -->
+  <div class="elements-list-container">
+
+    <!-- List Header -->
+    <div class="list-header">
+      <div class="header-info">
+        <div class="header-icon">
+          <i class="fas fa-table"></i>
+        </div>
+        <div class="header-content">
+          <h2 class="header-title">Fiches Vache</h2>
+          <div class="header-stats">
+            @if (isLoading()) {
+              <span class="stat-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Loading elements...
+              </span>
+            } @else {
+              <span class="stat-item">
+                <i class="fas fa-list"></i>
+                {{ elementCount() }} of {{ totalCount() }} elements
+              </span>
+              @if (databaseInfo()?.filename) {
+                <span class="stat-item">
+                  <i class="fas fa-file-excel"></i>
+                  {{ databaseInfo()!.filename }}
+                </span>
+              }
+              @if (databaseInfo()?.lastUpdated) {
+                <span class="stat-item">
+                  <i class="fas fa-clock"></i>
+                  {{ formatDateTime(databaseInfo()!.lastUpdated) }}
+                </span>
+              }
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Search -->
+        <div class="search-box">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text"
+                 class="search-input"
+                 placeholder="Search elements..."
+                 [value]="searchTerm()"
+                 (input)="onSearchChange($event)">
+          @if (searchTerm()) {
+            <button class="clear-search-btn"
+                    (click)="clearSearch()"
+                    title="Clear search">
+              <i class="fas fa-times"></i>
+            </button>
+          }
+        </div>
+
+        <!-- Refresh Button -->
+        <button class="refresh-btn"
+                (click)="refreshElements()"
+                [disabled]="isLoading()"
+                title="Refresh elements">
+          <i class="fas" [class.fa-sync-alt]="!isLoading()" [class.fa-spinner]="isLoading()" [class.fa-spin]="isLoading()"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    @if (error()) {
+      <div class="error-message">
+        <div class="error-icon">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="error-content">
+          <h4 class="error-title">Error Loading Elements</h4>
+          <p class="error-text">{{ error() }}</p>
+        </div>
+        <button class="error-close"
+                (click)="clearError()"
+                title="Close error">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    }
+
+    <!-- Elements List -->
+    @if (!isLoading() && !error()) {
+      @if (hasElements()) {
+        <div class="elements-list">
+
+          <!-- Column Headers -->
+          <div class="list-columns-header">
+            <div class="column-action">Action</div>
+            @for (key of getElementKeys(); track key) {
+              <div class="column-data">{{ key }}</div>
+            }
+          </div>
+
+          <!-- Element Rows -->
+          <div class="elements-rows">
+            @for (element of filteredElements(); track element.id) {
+              <div class="element-row"
+                   [class.selected]="isElementSelected(element)"
+                   [class.highlighted]="isElementSelected(element)">
+
+                <!-- Play Button -->
+                <div class="row-action">
+                  <button class="play-btn"
+                          (click)="selectElement(element)"
+                          [class.active]="isElementSelected(element)"
+                          [title]="isElementSelected(element) ? 'Deselect element' : 'Select element for VMix'">
+                    @if (isElementSelected(element)) {
+                      <i class="fas fa-check"></i>
+                    } @else {
+                      <i class="fas fa-play"></i>
+                    }
+                  </button>
+                </div>
+
+                <!-- Element Data -->
+                @for (key of getElementKeys(); track key) {
+                  <div class="row-data" [title]="getElementDisplayValue(element, key)">
+                    {{ getElementDisplayValue(element, key) }}
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <!-- Empty State -->
+        <div class="empty-state">
+          <div class="empty-icon">
+            <i class="fas fa-inbox"></i>
+          </div>
+          <h3>No Elements Found</h3>
+          <p>Upload an Excel file to see elements here.</p>
+          <button class="refresh-btn-large" (click)="refreshElements()">
+            <i class="fas fa-sync-alt"></i>
+            Refresh List
+          </button>
+        </div>
+      }
+    }
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <div class="loading-state">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+        </div>
+        <h3>Loading Elements...</h3>
+        <p>Please wait while we fetch the Excel data.</p>
+      </div>
+    }
+  </div>
+
+</div>
