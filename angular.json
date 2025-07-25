@@ -51,12 +51,14 @@
                   "maximumError": "20kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "outputPath": "dist/prod/vmix-client"
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "outputPath": "dist/dev/vmix-client"
             }
           },
           "defaultConfiguration": "production"
