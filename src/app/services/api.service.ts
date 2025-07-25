@@ -10,8 +10,8 @@ import { ApiResponse, UploadProgress, UploadResponse, ElementsResponse, ExcelRow
 })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:3000/api/v1';
-  private readonly healthUrl = 'http://localhost:3000/health';
+  private readonly baseUrl = '/api/v1';
+  private readonly healthUrl = '/health';
 
   /**
    * Upload d'un fichier Excel avec progress

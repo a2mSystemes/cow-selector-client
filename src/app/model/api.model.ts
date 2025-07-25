@@ -9,6 +9,18 @@ export interface UploadResponse {
   filename: string;
   rowCount: number;
   columns: string[];
+  fileSize: number | null;
+  mimeType: string | null;
+  metadata: any;
+}
+
+export interface UploadState {
+  selectedFile: File | null;
+  isDragOver: boolean;
+  uploadProgress: number | null;
+  isUploading: boolean;
+  uploadResult: UploadResponse | null;
+  error: string | null;
 }
 
 export interface ExcelRow {

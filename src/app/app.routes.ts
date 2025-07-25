@@ -17,6 +17,16 @@ export const routes: Routes = [
     title: 'Elements List - VMix DataSource Manager'
   },
   {
+    path: 'selected',
+    loadComponent: () => import('./views/selected-element/selected-element.component').then(m => m.SelectedElementComponent),
+    title: 'Selected Element - VMix DataSource Manager'
+  },
+  {
+    path: 'status',
+    loadComponent: () => import('./views/status/status.component').then(m => m.StatusComponent),
+    title: 'Server Status - VMix DataSource Manager'
+  },
+  {
     path: '**',
     redirectTo: '/upload'
   }

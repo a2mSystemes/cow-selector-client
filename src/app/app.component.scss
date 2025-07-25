@@ -32,7 +32,7 @@
       gap: 8px;
       flex: 1;
       justify-content: center;
-      
+
       .nav-link {
         display: flex;
         align-items: center;
@@ -46,24 +46,24 @@
         transition: all 0.2s ease;
         background-color: transparent;
         border: 1px solid transparent;
-        
+
         i {
           font-size: 14px;
           width: 16px;
           text-align: center;
         }
-        
+
         &:hover {
           color: var(--vscode-text-primary);
           background-color: var(--vscode-hover-bg);
           border-color: var(--vscode-border);
         }
-        
+
         &.active {
           color: var(--vscode-accent-blue);
           background-color: rgba(0, 122, 204, 0.1);
           border-color: var(--vscode-accent-blue);
-          
+
           i {
             color: var(--vscode-accent-blue);
           }
@@ -175,12 +175,12 @@
         width: 100%;
         justify-content: center;
       }
-      
+
       .header-nav {
         width: 100%;
         justify-content: center;
         gap: 12px;
-        
+
         .nav-link {
           flex: 1;
           justify-content: center;
@@ -202,3 +202,56 @@
         display: none;
       }
     }
+    .upload-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--vscode-border);
+
+  .header-icon {
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--vscode-accent-blue), #1177bb);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 0 4px 12px rgba(0, 122, 204, 0.3);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+      pointer-events: none;
+    }
+  }
+
+  .header-content {
+    flex: 1;
+
+    .header-title {
+      margin: 0 0 6px 0;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--vscode-text-primary);
+      background: linear-gradient(135deg, var(--vscode-text-primary), var(--vscode-accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-subtitle {
+      margin: 0;
+      color: var(--vscode-text-secondary);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+}

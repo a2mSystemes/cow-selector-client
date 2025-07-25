@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { ExcelRow } from '../../model/api.model';
 
 @Component({
   selector: 'app-selected-element',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './selected-element.component.html',
   styleUrl: './selected-element.component.scss'
 })

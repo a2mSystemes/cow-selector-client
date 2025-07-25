@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
@@ -18,7 +17,7 @@ interface ElementsState {
 @Component({
   selector: 'app-elements-list',
   standalone: true,
-  imports: [CommonModule, SelectedElementComponent],
+  imports: [SelectedElementComponent],
   templateUrl: './elements-list.component.html',
   styleUrl: './elements-list.component.scss'
 })

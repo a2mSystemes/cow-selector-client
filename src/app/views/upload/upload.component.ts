@@ -1,24 +1,16 @@
 import { Component, ElementRef, ViewChild, signal, inject, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
 
-import { UploadResponse, UploadProgress } from '../../model/api.model';
+import { UploadResponse, UploadProgress, UploadState } from '../../model/api.model';
 
-interface UploadState {
-  selectedFile: File | null;
-  isDragOver: boolean;
-  uploadProgress: number | null;
-  isUploading: boolean;
-  uploadResult: UploadResponse | null;
-  error: string | null;
-}
+
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss'
 })
