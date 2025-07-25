@@ -32,6 +32,11 @@
               }
             ],
             "styles": [
+              "@fontsource/roboto/300.css",
+              "@fontsource/roboto/400.css", 
+              "@fontsource/roboto/500.css",
+              "@fontsource/material-icons/index.css",
+              "@fortawesome/fontawesome-free/css/all.min.css",
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
@@ -94,6 +99,11 @@
               }
             ],
             "styles": [
+              "@fontsource/roboto/300.css",
+              "@fontsource/roboto/400.css",
+              "@fontsource/roboto/500.css", 
+              "@fontsource/material-icons/index.css",
+              "@fortawesome/fontawesome-free/css/all.min.css",
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],
