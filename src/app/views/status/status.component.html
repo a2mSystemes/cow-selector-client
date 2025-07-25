@@ -1,0 +1,70 @@
+ <div class="status-container">
+      <div class="status-card">
+        <div class="status-icon"><i class="fas fa-bullseye"></i></div>
+        <h1>VMix Server Status</h1>
+        <p class="subtitle">Surveillance en temps réel du serveur VMix</p>
+
+        <div class="status-indicator" [class.online]="statusData.isOnline" [class.offline]="!statusData.isOnline">
+          <span class="indicator-dot"></span>
+          <i class="fas" [class.fa-check-circle]="statusData.isOnline" [class.fa-times-circle]="!statusData.isOnline"></i>
+          {{ statusData.isOnline ? 'Serveur opérationnel' : 'Serveur hors ligne' }}
+        </div>
+
+        @if (statusData.server) {
+          <div class="info-grid">
+            <div class="info-card">
+              <h3>Service</h3>
+              <p>{{ statusData.server.service }}</p>
+            </div>
+            <div class="info-card">
+              <h3>Environnement</h3>
+              <p>{{ statusData.server.environment || 'Production' }}</p>
+            </div>
+            <div class="info-card">
+              <h3>
+                <i class="fas fa-code"></i>
+                Mode Angular
+              </h3>
+              <p>
+                <i class="fas" [class.fa-tools]="statusData.server.angular === 'dev-server'" [class.fa-cube]="statusData.server.angular === 'static-files'"></i>
+                {{ getAngularMode() }}
+              </p>
+            </div>
+            <div class="info-card">
+              <h3>Status</h3>
+              <p>{{ statusData.server.status }}</p>
+            </div>
+          </div>
+        }
+
+        @if (statusData.error) {
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+              <h3>Erreur de connexion</h3>
+              <p>{{ statusData.error }}</p>
+            </div>
+          </div>
+        }
+
+        <div class="actions">
+          <button class="btn-primary" (click)="refreshStatus()">
+            <i class="fas fa-sync-alt"></i>
+            Actualiser
+          </button>
+          <button class="btn-secondary" (click)="toggleAutoRefresh()">
+            <i class="fas" [class.fa-pause]="autoRefresh" [class.fa-play]="!autoRefresh"></i>
+            {{ autoRefresh ? 'Arrêter' : 'Démarrer' }} Auto-refresh
+          </button>
+        </div>
+
+        <div class="timestamp">
+          <p>Dernière mise à jour : {{ statusData.lastUpdate | date:'dd/MM/yyyy HH:mm:ss' }}</p>
+          @if (autoRefresh) {
+            <p class="auto-refresh-indicator">
+              Actualisation automatique activée ({{ countdown }}s)
+            </p>
+          }
+        </div>
+      </div>
+    </div>

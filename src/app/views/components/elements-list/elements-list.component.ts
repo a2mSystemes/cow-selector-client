@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy, signal, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { ApiService } from '../../services/api.service';
-import { ExcelRow, ElementsResponse, DatabaseInfo } from '../../model/api.model';
+import { ApiService } from '../../../services/api.service';
+import { ExcelRow, ElementsResponse, DatabaseInfo } from '../../../model/api.model';
 import { SelectedElementComponent } from '../selected-element/selected-element.component';
+import { MessageComponent } from '../message';
+import { MessageData } from '../message';
 
 interface ElementsState {
   elements: ExcelRow[];
@@ -17,7 +19,7 @@ interface ElementsState {
 @Component({
   selector: 'app-elements-list',
   standalone: true,
-  imports: [SelectedElementComponent],
+  imports: [SelectedElementComponent, MessageComponent],
   templateUrl: './elements-list.component.html',
   styleUrl: './elements-list.component.scss'
 })
@@ -133,6 +135,25 @@ export class ElementsListComponent implements OnInit, OnDestroy {
 
   clearError(): void {
     this.updateState({ error: null });
+  }
+
+  // === Message Helpers ===
+
+  getErrorMessageData(): MessageData | null {
+    const error = this.error();
+    if (!error) return null;
+
+    return {
+      type: 'error',
+      title: 'Error Loading Elements',
+      message: error,
+      closable: true,
+      autoDismiss: false
+    };
+  }
+
+  onErrorMessageDismissed(): void {
+    this.clearError();
   }
 
 

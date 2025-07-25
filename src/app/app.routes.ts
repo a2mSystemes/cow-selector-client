@@ -13,12 +13,12 @@ export const routes: Routes = [
   },
   {
     path: 'elements',
-    loadComponent: () => import('./views/elements-list/elements-list.component').then(m => m.ElementsListComponent),
+    loadComponent: () => import('./views/components/elements-list/elements-list.component').then(m => m.ElementsListComponent),
     title: 'Elements List - VMix DataSource Manager'
   },
   {
     path: 'selected',
-    loadComponent: () => import('./views/selected-element/selected-element.component').then(m => m.SelectedElementComponent),
+    loadComponent: () => import('./views/components/selected-element/selected-element.component').then(m => m.SelectedElementComponent),
     title: 'Selected Element - VMix DataSource Manager'
   },
   {

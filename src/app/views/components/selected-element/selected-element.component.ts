@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { ExcelRow } from '../../model/api.model';
+import { ExcelRow } from '../../../model/api.model';
 
 @Component({
   selector: 'app-selected-element',
@@ -12,23 +12,16 @@ import { ExcelRow } from '../../model/api.model';
 export class SelectedElementComponent {
   @Input() selectedElement: ExcelRow | null = null;
   @Input() elementKeys: string[] = [];
-  
+
   @Output() clearSelection = new EventEmitter<void>();
 
-  // === Computed Properties ===
-  
   hasSelection(): boolean {
     return this.selectedElement !== null;
   }
-
-  // === Event Handlers ===
-  
   onClearSelection(): void {
     this.clearSelection.emit();
   }
 
-  // === Utility Methods ===
-  
   getElementDisplayValue(element: ExcelRow, key: string): string {
     const value = element[key];
     if (value === null || value === undefined) return '-';

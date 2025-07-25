@@ -1,0 +1,67 @@
+<!-- src/app/shared/components/message/message.component.html -->
+
+<div [class]="messageClasses()"
+     (click)="onMessageClick()"
+     [attr.role]="data.type === 'error' ? 'alert' : 'status'"
+     [attr.aria-live]="data.type === 'error' ? 'assertive' : 'polite'">
+
+  <!-- Icône du message -->
+  @if (shouldShowIcon()) {
+    <div class="app-message__icon">
+      <i [class]="iconClass()"></i>
+    </div>
+  }
+
+  <!-- Contenu principal -->
+  <div class="app-message__content">
+
+    <!-- Titre -->
+    @if (shouldShowTitle()) {
+      <h4 class="app-message__title">
+        {{ data.title }}
+      </h4>
+    }
+
+    <!-- Message principal -->
+    <div class="app-message__text">
+      {{ data.message }}
+    </div>
+
+    <!-- Détails additionnels (liste) -->
+    @if (data.details && data.details.length > 0) {
+      <div class="app-message__details">
+        <ul class="app-message__details-list">
+          @for (detail of data.details; track $index) {
+            <li class="app-message__detail-item">
+              {{ detail }}
+            </li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Barre de progression pour auto-dismiss (sauf erreurs) -->
+    @if (shouldAutoDismiss() && dismissDuration() > 0) {
+      <div class="app-message__progress">
+        <div class="app-message__progress-bar"
+             [style.animation-duration.ms]="dismissDuration()">
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Bouton de fermeture -->
+  @if (isClosable()) {
+    <button class="app-message__close"
+            (click)="onCloseClick()"
+            type="button"
+            [attr.aria-label]="'Fermer le message: ' + getMessageTypeLabel()"
+            [title]="'Fermer ce message ' + data.type">
+      <i class="fas fa-times"></i>
+    </button>
+  }
+
+  <!-- Indicateur visuel du type de message -->
+  <div class="app-message__type-indicator"></div>
+
+</div>

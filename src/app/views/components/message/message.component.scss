@@ -1,0 +1,412 @@
+// src/app/shared/components/message/message.component.scss
+
+// === VARIABLES ===
+$message-border-radius: 8px;
+$message-padding: 18px;
+$message-gap: 12px;
+$message-icon-size: 20px;
+$message-close-size: 24px;
+$message-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$message-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$message-hover-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+// === BASE COMPONENT ===
+.app-message {
+  display: flex;
+  align-items: flex-start;
+  gap: $message-gap;
+  padding: $message-padding;
+  border-radius: $message-border-radius;
+  border-left: 4px solid;
+  position: relative;
+  box-shadow: $message-box-shadow;
+  margin: 16px 0;
+  cursor: pointer;
+  
+  // Transitions et animations
+  opacity: 0;
+  transform: translateY(-10px) scale(0.95);
+  transition: $message-transition;
+  
+  &--visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  
+  &:hover {
+    box-shadow: $message-hover-shadow;
+    transform: translateY(-1px) scale(1.01);
+  }
+  
+  // === VARIANTES PAR TYPE ===
+  
+  // Success (Vert)
+  &--success {
+    background-color: rgba(78, 201, 176, 0.1);
+    border-left-color: var(--accent-green);
+    
+    .app-message__icon {
+      color: var(--accent-green);
+    }
+    
+    .app-message__title {
+      color: var(--accent-green);
+    }
+    
+    .app-message__type-indicator {
+      background: linear-gradient(135deg, var(--accent-green), #4ec5b0);
+    }
+    
+    .app-message__progress-bar {
+      background: linear-gradient(90deg, var(--accent-green), #4ec5b0);
+      box-shadow: 0 2px 4px rgba(78, 201, 176, 0.3);
+    }
+    
+    &:hover {
+      background-color: rgba(78, 201, 176, 0.15);
+      border-left-color: #0e5d45;
+    }
+  }
+  
+  // Error (Rouge)
+  &--error {
+    background-color: rgba(244, 67, 54, 0.1);
+    border-left-color: var(--text-error);
+    
+    .app-message__icon {
+      color: var(--text-error);
+      animation: pulse-error 2s infinite;
+    }
+    
+    .app-message__title {
+      color: var(--text-error);
+    }
+    
+    .app-message__type-indicator {
+      background: linear-gradient(135deg, var(--text-error), #f87171);
+    }
+    
+    &:hover {
+      background-color: rgba(244, 67, 54, 0.15);
+      border-left-color: #c62828;
+    }
+  }
+  
+  // Warning (Orange)
+  &--warning {
+    background-color: rgba(255, 152, 0, 0.1);
+    border-left-color: var(--text-warning);
+    
+    .app-message__icon {
+      color: var(--text-warning);
+      animation: pulse-warning 3s infinite;
+    }
+    
+    .app-message__title {
+      color: var(--text-warning);
+    }
+    
+    .app-message__type-indicator {
+      background: linear-gradient(135deg, var(--text-warning), #ffb74d);
+    }
+    
+    .app-message__progress-bar {
+      background: linear-gradient(90deg, var(--text-warning), #ffb74d);
+      box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+    }
+    
+    &:hover {
+      background-color: rgba(255, 152, 0, 0.15);
+      border-left-color: #f57c00;
+    }
+  }
+  
+  // Info (Bleu)
+  &--info {
+    background-color: rgba(79, 195, 247, 0.1);
+    border-left-color: var(--text-accent);
+    
+    .app-message__icon {
+      color: var(--text-accent);
+    }
+    
+    .app-message__title {
+      color: var(--text-accent);
+    }
+    
+    .app-message__type-indicator {
+      background: linear-gradient(135deg, var(--text-accent), #64b5f6);
+    }
+    
+    .app-message__progress-bar {
+      background: linear-gradient(90deg, var(--text-accent), #64b5f6);
+      box-shadow: 0 2px 4px rgba(79, 195, 247, 0.3);
+    }
+    
+    &:hover {
+      background-color: rgba(79, 195, 247, 0.15);
+      border-left-color: #0288d1;
+    }
+  }
+}
+
+// === ELEMENTS ===
+
+// Icône
+.app-message__icon {
+  font-size: $message-icon-size;
+  margin-top: 2px;
+  flex-shrink: 0;
+  transition: $message-transition;
+}
+
+// Contenu principal
+.app-message__content {
+  flex: 1;
+  min-width: 0;
+}
+
+// Titre
+.app-message__title {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+// Texte du message
+.app-message__text {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+// Détails additionnels
+.app-message__details {
+  margin-top: 8px;
+  
+  .app-message__details-list {
+    margin: 0;
+    padding-left: 16px;
+    
+    .app-message__detail-item {
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 1.4;
+      margin-bottom: 2px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Bouton de fermeture
+.app-message__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: $message-close-size;
+  height: $message-close-size;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: $message-transition;
+  flex-shrink: 0;
+  
+  &:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: scale(0.95);
+  }
+  
+  i {
+    font-size: 12px;
+  }
+}
+
+// Indicateur de type (barre colorée en haut)
+.app-message__type-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: $message-border-radius $message-border-radius 0 0;
+  opacity: 0.8;
+}
+
+// Barre de progression pour auto-dismiss
+.app-message__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--bg-tertiary);
+  border-radius: 0 0 $message-border-radius $message-border-radius;
+  overflow: hidden;
+  
+  .app-message__progress-bar {
+    height: 100%;
+    width: 100%;
+    transform-origin: left;
+    animation: progress-shrink linear forwards;
+  }
+}
+
+// === ANIMATIONS ===
+
+@keyframes progress-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes pulse-error {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes pulse-warning {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  33% {
+    transform: scale(1.03);
+    opacity: 0.9;
+  }
+  66% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Animation d'entrée personnalisée
+@keyframes message-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Animation de sortie
+@keyframes message-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+}
+
+// === RESPONSIVE ===
+
+@media (max-width: 768px) {
+  .app-message {
+    padding: 14px;
+    gap: 10px;
+    margin: 12px 0;
+    
+    .app-message__title {
+      font-size: 13px;
+    }
+    
+    .app-message__text {
+      font-size: 12px;
+    }
+    
+    .app-message__close {
+      width: 20px;
+      height: 20px;
+      top: 6px;
+      right: 6px;
+      
+      i {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .app-message {
+    padding: 12px;
+    gap: 8px;
+    border-radius: 6px;
+    
+    .app-message__icon {
+      font-size: 16px;
+    }
+    
+    .app-message__details {
+      margin-top: 6px;
+      
+      .app-message__details-list {
+        padding-left: 12px;
+      }
+    }
+  }
+}
+
+// === UTILITAIRES ===
+
+// Pour masquer les messages lors de l'animation de sortie
+.app-message--exiting {
+  animation: message-exit 0.3s ease forwards;
+}
+
+// Pour les messages dans des containers spéciaux
+.app-message--compact {
+  padding: 12px;
+  margin: 8px 0;
+  
+  .app-message__title {
+    font-size: 13px;
+  }
+  
+  .app-message__text {
+    font-size: 12px;
+  }
+}
+
+// Pour les messages en mode liste/stack
+.app-message--stacked {
+  margin: 4px 0;
+  
+  &:first-child {
+    margin-top: 0;
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

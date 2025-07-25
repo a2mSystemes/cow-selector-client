@@ -2,6 +2,8 @@ import { Component, ElementRef, ViewChild, signal, inject, OnDestroy } from '@an
 import { Subscription } from 'rxjs';
 
 import { ApiService } from '../../services/api.service';
+import { MessageComponent } from '../components/message';
+import { MessageData } from '../components/message';
 
 import { UploadResponse, UploadProgress, UploadState } from '../../model/api.model';
 
@@ -10,7 +12,7 @@ import { UploadResponse, UploadProgress, UploadState } from '../../model/api.mod
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [],
+  imports: [MessageComponent],
   templateUrl: './upload.component.html',
   styleUrl: './upload.component.scss'
 })
@@ -152,6 +154,50 @@ export class UploadComponent implements OnDestroy {
 
   clearSuccess(): void {
     this.updateState({ uploadResult: null });
+  }
+
+  // === Message Helpers ===
+
+  getErrorMessageData(): MessageData | null {
+    const error = this.error();
+    if (!error) return null;
+
+    return {
+      type: 'error',
+      title: 'Upload Error',
+      message: error,
+      closable: true,
+      autoDismiss: false
+    };
+  }
+
+  getSuccessMessageData(): MessageData | null {
+    const result = this.uploadResult();
+    if (!result) return null;
+
+    const details = [
+      `${result.rowCount} rows imported`,
+      `${result.columns.length} columns detected`,
+      result.filename || 'File processed'
+    ];
+
+    return {
+      type: 'success',
+      title: 'Upload Successful!',
+      message: 'Your Excel file has been imported successfully',
+      details: details,
+      closable: true,
+      autoDismiss: true,
+      duration: 6000
+    };
+  }
+
+  onErrorMessageDismissed(): void {
+    this.clearError();
+  }
+
+  onSuccessMessageDismissed(): void {
+    this.clearSuccess();
   }
 
   // === Utilitaires ===

@@ -75,22 +75,11 @@
       </div>
     </div>
 
-    <!-- Error Message -->
-    @if (error()) {
-      <div class="error-message">
-        <div class="error-icon">
-          <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <div class="error-content">
-          <h4 class="error-title">Error Loading Elements</h4>
-          <p class="error-text">{{ error() }}</p>
-        </div>
-        <button class="error-close"
-                (click)="clearError()"
-                title="Close error">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+    <!-- Message d'erreur avec le nouveau composant -->
+    @if (getErrorMessageData()) {
+      <app-message [data]="getErrorMessageData()!"
+                   (dismissed)="onErrorMessageDismissed()">
+      </app-message>
     }
 
     <!-- Elements List -->

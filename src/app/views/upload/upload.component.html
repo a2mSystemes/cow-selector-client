@@ -121,75 +121,17 @@
       </div>
     }
 
-    <!-- Error Message -->
-    @if (error()) {
-      <div class="error-message vscode-fade-in">
-        <div class="error-icon">
-          <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <div class="error-content">
-          <h4 class="error-title">Upload Error</h4>
-          <p class="error-text">{{ error() }}</p>
-        </div>
-        <button class="error-close"
-                (click)="clearError()"
-                type="button"
-                title="Close error">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+    <!-- Messages avec le nouveau composant -->    
+    @if (getErrorMessageData()) {
+      <app-message [data]="getErrorMessageData()!"
+                   (dismissed)="onErrorMessageDismissed()">
+      </app-message>
     }
 
-    <!-- Success Message -->
-    @if (uploadResult()) {
-      <div class="success-message vscode-fade-in">
-        <div class="success-icon">
-          <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="success-content">
-          <h4 class="success-title">Upload Successful!</h4>
-          <p class="success-text">
-            Your Excel file has been imported successfully
-          </p>
-
-          <div class="upload-stats">
-            <div class="stat-item">
-              <i class="fas fa-table"></i>
-              <span>{{ uploadResult()?.rowCount }} rows imported</span>
-            </div>
-            <div class="stat-item">
-              <i class="fas fa-columns"></i>
-              <span>{{ uploadResult()!.columns.length }} columns detected</span>
-            </div>
-            <div class="stat-item">
-              <i class="fas fa-file-signature"></i>
-              <span>{{ uploadResult()?.filename || 'File processed' }}</span>
-            </div>
-          </div>
-
-          <!-- Columns Preview -->
-          @if (uploadResult()?.columns && uploadResult()!.columns.length > 0) {
-            <div class="columns-preview">
-              <strong class="columns-label">
-                <i class="fas fa-list"></i>
-                Detected columns:
-              </strong>
-              <div class="columns-tags">
-                @for (column of uploadResult()!.columns; track column) {
-                  <span class="column-tag">{{ column }}</span>
-                }
-              </div>
-            </div>
-          }
-        </div>
-
-        <button class="success-close"
-                (click)="clearSuccess()"
-                type="button"
-                title="Close success message">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+    @if (getSuccessMessageData()) {
+      <app-message [data]="getSuccessMessageData()!"
+                   (dismissed)="onSuccessMessageDismissed()">
+      </app-message>
     }
   </div>
 
