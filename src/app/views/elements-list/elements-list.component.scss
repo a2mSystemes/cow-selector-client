@@ -2,7 +2,7 @@
 
 // === Main Container ===
 .elements-container {
-  max-width: 1200px;
+  max-width: 1700px;
   margin: 0 auto;
   padding: 24px;
   min-height: calc(100vh - 92px);
@@ -11,11 +11,6 @@
   gap: 24px;
 }
 
-
-
-
-
-// === Elements List Container ===
 .elements-list-container {
   background-color: var(--bg-primary);
   border: 1px solid var(--border-color);
@@ -23,7 +18,7 @@
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  
+
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -31,7 +26,6 @@
   }
 }
 
-// === List Header ===
 .list-header {
   background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
   padding: 20px 24px;
@@ -40,13 +34,13 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
-  
+
   .header-info {
     display: flex;
     align-items: center;
     gap: 16px;
     flex: 1;
-    
+
     .header-icon {
       width: 44px;
       height: 44px;
@@ -59,39 +53,39 @@
       font-size: 20px;
       box-shadow: 0 3px 10px rgba(0, 122, 204, 0.3);
     }
-    
+
     .header-content {
       flex: 1;
-      
+
       .header-title {
         margin: 0 0 8px 0;
         font-size: 22px;
         font-weight: 600;
         color: var(--text-primary);
       }
-      
+
       .header-stats {
         display: flex;
         align-items: center;
         gap: 16px;
         flex-wrap: wrap;
-        
+
         .stat-item, .stat-loading {
           display: flex;
           align-items: center;
           gap: 6px;
           font-size: 12px;
           color: var(--text-secondary);
-          
+
           i {
             color: var(--accent-blue);
             width: 12px;
           }
         }
-        
+
         .stat-loading {
           color: var(--text-warning);
-          
+
           i {
             color: var(--text-warning);
           }
@@ -99,17 +93,17 @@
       }
     }
   }
-  
+
   .header-actions {
     display: flex;
     align-items: center;
     gap: 12px;
-    
+
     .search-box {
       position: relative;
       display: flex;
       align-items: center;
-      
+
       .search-icon {
         position: absolute;
         left: 12px;
@@ -117,7 +111,7 @@
         font-size: 14px;
         pointer-events: none;
       }
-      
+
       .search-input {
         width: 250px;
         padding: 10px 40px 10px 36px;
@@ -127,18 +121,18 @@
         color: var(--text-primary);
         font-size: 14px;
         transition: all 0.2s ease;
-        
+
         &:focus {
           outline: none;
           border-color: var(--accent-blue);
           box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
         }
-        
+
         &::placeholder {
           color: var(--text-muted);
         }
       }
-      
+
       .clear-search-btn {
         position: absolute;
         right: 8px;
@@ -153,14 +147,14 @@
         align-items: center;
         justify-content: center;
         transition: all 0.2s ease;
-        
+
         &:hover {
           background-color: var(--bg-hover);
           color: var(--text-primary);
         }
       }
     }
-    
+
     .refresh-btn {
       width: 40px;
       height: 40px;
@@ -173,12 +167,12 @@
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
-      
+
       &:hover:not(:disabled) {
         background-color: var(--accent-blue-hover);
         transform: translateY(-1px);
       }
-      
+
       &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
@@ -186,8 +180,6 @@
     }
   }
 }
-
-// === Error Message ===
 .error-message {
   display: flex;
   align-items: flex-start;
@@ -196,24 +188,24 @@
   background-color: rgba(244, 67, 54, 0.1);
   border-left: 4px solid var(--text-error);
   margin: 0;
-  
+
   .error-icon {
     color: var(--text-error);
     font-size: 20px;
     margin-top: 2px;
     flex-shrink: 0;
   }
-  
+
   .error-content {
     flex: 1;
-    
+
     .error-title {
       margin: 0 0 4px 0;
       color: var(--text-error);
       font-size: 14px;
       font-weight: 600;
     }
-    
+
     .error-text {
       margin: 0;
       color: var(--text-primary);
@@ -221,7 +213,7 @@
       line-height: 1.4;
     }
   }
-  
+
   .error-close {
     background: none;
     border: none;
@@ -230,15 +222,13 @@
     padding: 4px;
     border-radius: 2px;
     transition: all 0.2s ease;
-    
+
     &:hover {
       background-color: var(--bg-hover);
       color: var(--text-primary);
     }
   }
 }
-
-// === Elements List ===
 .elements-list {
   .list-columns-header {
     display: flex;
@@ -251,23 +241,23 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     gap: 16px;
-    
+
     .column-action {
       width: 80px;
       text-align: center;
       flex-shrink: 0;
     }
-    
+
     .column-data {
       flex: 1;
       min-width: 150px;
     }
   }
-  
+
   .elements-rows {
     max-height: 600px;
     overflow-y: auto;
-    
+
     .element-row {
       display: flex;
       padding: 16px 24px;
@@ -275,26 +265,26 @@
       transition: all 0.2s ease;
       align-items: center;
       gap: 16px;
-      
+
       &:hover {
         background-color: var(--bg-hover);
       }
-      
+
       &.selected {
         background-color: rgba(22, 130, 93, 0.1);
         border-left: 4px solid var(--accent-green);
-        
+
         &:hover {
           background-color: rgba(22, 130, 93, 0.15);
         }
       }
-      
+
       .row-action {
         width: 80px;
         display: flex;
         justify-content: center;
         flex-shrink: 0;
-        
+
         .play-btn {
           width: 36px;
           height: 36px;
@@ -309,17 +299,17 @@
           font-size: 14px;
           transition: all 0.2s ease;
           box-shadow: 0 2px 6px rgba(22, 130, 93, 0.3);
-          
+
           &:hover {
             background-color: #0e5d45;
             transform: scale(1.1);
             box-shadow: 0 4px 12px rgba(22, 130, 93, 0.4);
           }
-          
+
           &.active {
             background-color: var(--accent-blue);
             box-shadow: 0 2px 6px rgba(0, 122, 204, 0.3);
-            
+
             &:hover {
               background-color: var(--accent-blue-hover);
               box-shadow: 0 4px 12px rgba(0, 122, 204, 0.4);
@@ -327,7 +317,7 @@
           }
         }
       }
-      
+
       .row-data {
         flex: 1;
         min-width: 150px;
@@ -337,7 +327,7 @@
         white-space: nowrap;
         color: var(--text-secondary);
         font-size: 13px;
-        
+
         &:first-of-type {
           color: var(--text-primary);
           font-weight: 500;
@@ -351,28 +341,28 @@
 .empty-state {
   text-align: center;
   padding: 60px 24px;
-  
+
   .empty-icon {
     font-size: 64px;
     color: var(--text-muted);
     margin-bottom: 20px;
     opacity: 0.6;
   }
-  
+
   h3 {
     margin: 0 0 12px 0;
     font-size: 20px;
     font-weight: 500;
     color: var(--text-primary);
   }
-  
+
   p {
     margin: 0 0 24px 0;
     color: var(--text-secondary);
     font-size: 14px;
     line-height: 1.5;
   }
-  
+
   .refresh-btn-large {
     display: inline-flex;
     align-items: center;
@@ -386,7 +376,7 @@
     font-size: 14px;
     font-weight: 500;
     transition: all 0.2s ease;
-    
+
     &:hover {
       background-color: var(--accent-blue-hover);
       transform: translateY(-1px);
@@ -399,20 +389,20 @@
 .loading-state {
   text-align: center;
   padding: 60px 24px;
-  
+
   .loading-spinner {
     font-size: 48px;
     color: var(--accent-blue);
     margin-bottom: 20px;
   }
-  
+
   h3 {
     margin: 0 0 12px 0;
     font-size: 20px;
     font-weight: 500;
     color: var(--text-primary);
   }
-  
+
   p {
     margin: 0;
     color: var(--text-secondary);
@@ -436,10 +426,10 @@
     padding: 20px;
     gap: 20px;
   }
-  
+
   .list-header {
     padding: 16px 20px;
-    
+
     .header-actions .search-box .search-input {
       width: 200px;
     }
@@ -451,53 +441,53 @@
     padding: 16px;
     gap: 16px;
   }
-  
+
   .list-header {
     flex-direction: column;
     gap: 16px;
     align-items: stretch;
     padding: 16px;
-    
+
     .header-info {
       .header-icon {
         width: 36px;
         height: 36px;
         font-size: 16px;
       }
-      
+
       .header-content .header-title {
         font-size: 18px;
       }
-      
+
       .header-stats {
         flex-direction: column;
         align-items: flex-start;
         gap: 8px;
       }
     }
-    
+
     .header-actions {
       .search-box .search-input {
         width: 100%;
       }
     }
   }
-  
+
   .elements-list {
     .list-columns-header {
       padding: 12px 16px;
-      
+
       .column-action {
         width: 60px;
       }
     }
-    
+
     .elements-rows .element-row {
       padding: 12px 16px;
-      
+
       .row-action {
         width: 60px;
-        
+
         .play-btn {
           width: 32px;
           height: 32px;
@@ -512,26 +502,26 @@
   .elements-container {
     padding: 12px;
   }
-  
+
   .list-header {
     padding: 12px;
   }
-  
+
   .elements-list {
     .list-columns-header {
       padding: 8px 12px;
-      
+
       .column-action {
         width: 50px;
       }
     }
-    
+
     .elements-rows .element-row {
       padding: 8px 12px;
-      
+
       .row-action {
         width: 50px;
-        
+
         .play-btn {
           width: 28px;
           height: 28px;
